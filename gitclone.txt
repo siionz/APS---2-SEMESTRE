@@ -1,0 +1,9 @@
+COMANDOS PRA SUBIR O CODIGO NO GIT:
+
+- git pull: (Para evitar conflito, puxar as alterações feitas por outra pessoa antes de começar a editar),
+- git add . (Pega as alterações),
+- git commit -m "Comentários sobre a alteração",
+- git push (Para enviar o código no github)
+
+
+teste
