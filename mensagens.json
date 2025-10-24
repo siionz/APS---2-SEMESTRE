@@ -1,0 +1,65 @@
+[
+  {
+    "original": "Teste enviando uma mensagem.",
+    "hash": "bc9b58c56124994e22c8ec4c3b4034a43e8c6f9a9629e68ce3b036122c5c0e2f",
+    "timestamp": "2025-10-23T17:31:08.413194+00:00",
+    "topico": "minharede/chat",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "original": "& C:/Users/gabrielymolina/AppData/Local/Microsoft/WindowsApps/python3.13.exe c:/Users/gabrielymolina/Desktop/APS-BRENO/Aps.py",
+    "hash": "4019f37ffa270fb33750bb72891dd9b36ba6aed34a83df81d7db333830ca3004",
+    "timestamp": "2025-10-23T17:35:16.567212+00:00",
+    "topico": "minharede/chat",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "original": "sair",
+    "hash": "5243d4c71830502c8e33b343fec4896b02b08be6cb611eaa7aaa1124c107088d",
+    "timestamp": "2025-10-23T17:35:20.032192+00:00",
+    "topico": "minharede/chat",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "admin": [
+      "usuario",
+      "gelo"
+    ],
+    "usuario": [
+      "todos",
+      "gelo"
+    ],
+    "original": "oi user",
+    "hash": "7b96218b64595c08266514c6e42a5ac094ada22eadbf19f0b7e747e37956aa33",
+    "timestamp": "2025-10-24T10:17:53.064937+00:00",
+    "topico": "minharede/chat",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "02e575d491e148ee7fc4aed81bbe4233407b2a9fa537f833721dee6b59950406",
+    "destinatario": "412d76115f448a1a77dc2f177dcae23858fa82c85a138e767b4f6f19b6545837",
+    "original": "oi user",
+    "hash_msg": "7b96218b64595c08266514c6e42a5ac094ada22eadbf19f0b7e747e37956aa33",
+    "timestamp": "2025-10-24T10:32:03.959097+00:00",
+    "topico": "minharede/chat",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "02e575d491e148ee7fc4aed81bbe4233407b2a9fa537f833721dee6b59950406",
+    "destinatario": "412d76115f448a1a77dc2f177dcae23858fa82c85a138e767b4f6f19b6545837",
+    "original": "sair",
+    "hash_msg": "5243d4c71830502c8e33b343fec4896b02b08be6cb611eaa7aaa1124c107088d",
+    "timestamp": "2025-10-24T10:32:12.728821+00:00",
+    "topico": "minharede/chat",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "02e575d491e148ee7fc4aed81bbe4233407b2a9fa537f833721dee6b59950406",
+    "destinatario": "412d76115f448a1a77dc2f177dcae23858fa82c85a138e767b4f6f19b6545837",
+    "original": "oi",
+    "hash_msg": "7f60b6b330205cdc4a2db6113b3e2a39666820fa8ed6c4f75e78090080a021ff",
+    "timestamp": "2025-10-24T10:34:23.268283+00:00",
+    "topico": "minharede/chat",
+    "broker": "test.mosquitto.org"
+  }
+]

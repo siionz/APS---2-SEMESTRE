@@ -96,24 +96,29 @@ def adicionarUsers():
     if not isinstance(usuarios, dict):
         usuarios = {}
 
-    username = input("Digite o username do novo usuário:").strip()
+    username = input("Digite o username do novo usuário: ").strip()
+
     if any(user['username'] == username for user in usuarios.values()):
         console.print("[bold red]Username já existe. Tente novamente.[/bold red]")
         time.sleep(2)
         return
 
-    senha = input("Digite a senha do novo usuário:").strip()
-    tipo = input("Digite o tipo do usuário (admin/usuario):").strip().lower()
-    senha_hash = criptografarSenha(senha)
+    senha = input("Digite a senha do novo usuário: ").strip()
+    tipo = input("Digite o tipo do usuário (admin/usuario): ").strip().lower()
 
+    senha_hash = criptografarSenha(senha)
     novo_id = str(len(usuarios) + 1)
 
     usuarios[novo_id] = {
         'username': username,
         'passwordHash': senha_hash,
-        'tipo': tipo if tipo in ['admin', 'usuario'] else 'usuario'}
-    salvar_dados(arquivoUser, usuarios)
-    console.print(f"[bold green]Usuário '{username}' adcionado com sucesso![/bold green]")
+        'tipo': tipo if tipo in ['admin', 'usuario'] else 'usuario'
+    }
+    
+    with open(arquivoUser, 'w', encoding='utf-8') as f:
+        json.dump(usuarios, f, ensure_ascii=False, indent=4)
+
+    console.print(f"[bold green]Usuário '{username}' adicionado com sucesso![/bold green]")
     time.sleep(2)
 
 def modificarUser():
@@ -230,6 +235,8 @@ def enviar_mensagem(
     broker: str = "test.mosquitto.org",
     topico: str = "minharede/chat",
     arquivo: str = "mensagens.json",
+    remetente: str = "admin",
+    destinatario: str = "usuario",
     salt: Optional[str] = None
 ) -> None:
 
@@ -242,17 +249,26 @@ def enviar_mensagem(
 
     mensagens = carregar_json(arquivo)
 
+    remetente_hash = hashlib.sha256((remetente + salt).encode('utf-8')).hexdigest()
+    destinatario_hash = hashlib.sha256((destinatario + salt).encode('utf-8')).hexdigest()
+
     try:
         while True:
+            print("\nPara sua segurança, todas as mensagens são criptografadas. Digite 'sair' para encerrar.")
             msg = input("Você: ").strip()
+            
+            if msg.lower() == "sair":
+                break
             if not msg:
                 continue
 
             cliente.publish(topico, msg)
 
             registro = {
+                "remetente": remetente_hash,
+                "destinatario": destinatario_hash,
                 "original": msg,
-                "hash": hash_mensagem(msg, salt),
+                "hash_msg": hash_mensagem(msg, salt),
                 "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                 "topico": topico,
                 "broker": broker
@@ -261,9 +277,38 @@ def enviar_mensagem(
             mensagens.append(registro)
             salvar_json(arquivo, mensagens)
 
-            if msg.lower() == "sair":
-                break
+            console.print(f"[cyan]Mensagem enviada![/cyan]")
+            print(f"Remetente criptografado: {remetente_hash[:10]}...")
+            print(f"Destinatário criptografado: {destinatario_hash[:10]}...")
 
+
+    except KeyboardInterrupt:
+        pass
+    finally:
+        cliente.loop_stop()
+        cliente.disconnect()
+#////////////////////////////////////////////////////////#
+
+
+def receber_mensagem(
+    broker: str = "test.mosquitto.org",
+    topico: str = "minharede/chat"
+) -> None:
+
+    def on_message(client, userdata, message):
+        print(f"\nMensagem recebida no tópico '{message.topic}': {message.payload.decode()}")
+
+    cliente = mqtt.Client()
+    cliente.on_message = on_message
+
+    cliente.connect(broker, 1883, 60)
+    cliente.subscribe(topico)
+    cliente.loop_start()
+
+    try:
+        print(f"Escutando mensagens no tópico '{topico}. Para sua segurança todas as mensagens são criptografadas. Pressione Ctrl+C para sair.")
+        while True:
+            time.sleep(1)
     except KeyboardInterrupt:
         pass
     finally:
@@ -320,13 +365,13 @@ def GerenciamentoAddUserMenuAdm():
 def MenuPrincipalUser():
     while True:
         titulo("MENU PRINCIPAL")
-        print("  [1] - Envio de Mensagens")
+        print("  [1] - Mensgaens recebidas")
         print("  [2] - Sair")
 
         result = int (input("Escolha uma opção: "))
 
         if result == 1:
-            enviar_mensagem()
+            receber_mensagem()
         elif result == 2:
             break
         else:
