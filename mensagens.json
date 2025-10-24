@@ -61,5 +61,14 @@
     "timestamp": "2025-10-24T10:34:23.268283+00:00",
     "topico": "minharede/chat",
     "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "dee750bb948c143a9a9229ff3c95bf9b9879d3630ff1807f58b4b11c0fb36064",
+    "destinatario": "ae7eafd8c0f21a2d7a6de9ff752542056ea6eb93aa94132a0f876f4ae6a07578",
+    "original": "oioioi",
+    "hash_msg": "2e12013a692bc6dfe9beb2d7b5db89069a4648c1070ba20246851f3b16f8e681",
+    "timestamp": "2025-10-24T11:34:42.337435+00:00",
+    "topico": "minharede/chat",
+    "broker": "test.mosquitto.org"
   }
 ]

@@ -12,6 +12,6 @@
     "3": {
         "username": "leo",
         "passwordHash": "de2bfc258a879146f5d408cd19b8dd0a24882230ec485f78c9db52a568f5b6b5",
-        "tipo": "usuario"
+        "tipo": "admin"
     }
 }
