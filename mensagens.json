@@ -1,74 +1,83 @@
 [
   {
-    "original": "Teste enviando uma mensagem.",
-    "hash": "bc9b58c56124994e22c8ec4c3b4034a43e8c6f9a9629e68ce3b036122c5c0e2f",
-    "timestamp": "2025-10-23T17:31:08.413194+00:00",
-    "topico": "minharede/chat",
-    "broker": "test.mosquitto.org"
-  },
-  {
-    "original": "& C:/Users/gabrielymolina/AppData/Local/Microsoft/WindowsApps/python3.13.exe c:/Users/gabrielymolina/Desktop/APS-BRENO/Aps.py",
-    "hash": "4019f37ffa270fb33750bb72891dd9b36ba6aed34a83df81d7db333830ca3004",
-    "timestamp": "2025-10-23T17:35:16.567212+00:00",
-    "topico": "minharede/chat",
-    "broker": "test.mosquitto.org"
-  },
-  {
-    "original": "sair",
-    "hash": "5243d4c71830502c8e33b343fec4896b02b08be6cb611eaa7aaa1124c107088d",
-    "timestamp": "2025-10-23T17:35:20.032192+00:00",
-    "topico": "minharede/chat",
-    "broker": "test.mosquitto.org"
-  },
-  {
-    "admin": [
-      "usuario",
-      "gelo"
-    ],
-    "usuario": [
-      "todos",
-      "gelo"
-    ],
-    "original": "oi user",
-    "hash": "7b96218b64595c08266514c6e42a5ac094ada22eadbf19f0b7e747e37956aa33",
-    "timestamp": "2025-10-24T10:17:53.064937+00:00",
-    "topico": "minharede/chat",
-    "broker": "test.mosquitto.org"
-  },
-  {
-    "remetente": "02e575d491e148ee7fc4aed81bbe4233407b2a9fa537f833721dee6b59950406",
-    "destinatario": "412d76115f448a1a77dc2f177dcae23858fa82c85a138e767b4f6f19b6545837",
-    "original": "oi user",
-    "hash_msg": "7b96218b64595c08266514c6e42a5ac094ada22eadbf19f0b7e747e37956aa33",
-    "timestamp": "2025-10-24T10:32:03.959097+00:00",
-    "topico": "minharede/chat",
-    "broker": "test.mosquitto.org"
-  },
-  {
-    "remetente": "02e575d491e148ee7fc4aed81bbe4233407b2a9fa537f833721dee6b59950406",
-    "destinatario": "412d76115f448a1a77dc2f177dcae23858fa82c85a138e767b4f6f19b6545837",
-    "original": "sair",
-    "hash_msg": "5243d4c71830502c8e33b343fec4896b02b08be6cb611eaa7aaa1124c107088d",
-    "timestamp": "2025-10-24T10:32:12.728821+00:00",
-    "topico": "minharede/chat",
-    "broker": "test.mosquitto.org"
-  },
-  {
-    "remetente": "02e575d491e148ee7fc4aed81bbe4233407b2a9fa537f833721dee6b59950406",
-    "destinatario": "412d76115f448a1a77dc2f177dcae23858fa82c85a138e767b4f6f19b6545837",
+    "remetente": "dee750bb948c143a9a9229ff3c95bf9b9879d3630ff1807f58b4b11c0fb36064",
+    "destinatario": "84742b45d8b754e0fc7c9703e1c5d863e1e2b53294511f44882890dee4a96780",
     "original": "oi",
-    "hash_msg": "7f60b6b330205cdc4a2db6113b3e2a39666820fa8ed6c4f75e78090080a021ff",
-    "timestamp": "2025-10-24T10:34:23.268283+00:00",
-    "topico": "minharede/chat",
+    "hash_msg": "c040460e7ade9cf1db02b3b79cfb1930b8afe1337930597c8351891ca7a66add",
+    "timestamp": "2025-10-28T12:48:53.680558+00:00",
+    "topico": "minharede/chat/yas",
     "broker": "test.mosquitto.org"
   },
   {
     "remetente": "dee750bb948c143a9a9229ff3c95bf9b9879d3630ff1807f58b4b11c0fb36064",
-    "destinatario": "ae7eafd8c0f21a2d7a6de9ff752542056ea6eb93aa94132a0f876f4ae6a07578",
+    "destinatario": "84742b45d8b754e0fc7c9703e1c5d863e1e2b53294511f44882890dee4a96780",
+    "original": "oi",
+    "hash_msg": "c040460e7ade9cf1db02b3b79cfb1930b8afe1337930597c8351891ca7a66add",
+    "timestamp": "2025-10-28T12:49:01.040486+00:00",
+    "topico": "minharede/chat/yas",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "dee750bb948c143a9a9229ff3c95bf9b9879d3630ff1807f58b4b11c0fb36064",
+    "destinatario": "84742b45d8b754e0fc7c9703e1c5d863e1e2b53294511f44882890dee4a96780",
+    "original": "eu amo dar",
+    "hash_msg": "5dddf89f764c8bc9d964da2186b6de8203d6591b0978730c982d8a6bd4334548",
+    "timestamp": "2025-10-28T12:49:03.921537+00:00",
+    "topico": "minharede/chat/yas",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "dee750bb948c143a9a9229ff3c95bf9b9879d3630ff1807f58b4b11c0fb36064",
+    "destinatario": "84742b45d8b754e0fc7c9703e1c5d863e1e2b53294511f44882890dee4a96780",
+    "original": "& C:/Users/gabrielymolina/AppData/Local/Microsoft/WindowsApps/python3.13.exe c:/Users/gabrielymolina/Desktop/APS-BRENO/Aps.py",
+    "hash_msg": "749b2638205fa17cdaa66d8f504f2830851a4cf00d7b8fbd9eb4b3dbb92a6018",
+    "timestamp": "2025-10-28T12:51:30.699939+00:00",
+    "topico": "minharede/chat/yas",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "Admin",
+    "destinatario": "yas",
+    "original": "oi yas",
+    "hash_msg": "b014d32eca47c79ad8d53fdb4633bc3b866674fcac438227b28e219b850c9301",
+    "timestamp": "2025-10-28T12:59:54.201506+00:00",
+    "topico": "minharede/chat/yas",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "Admin",
+    "destinatario": "carlos",
+    "original": "oi",
+    "hash_msg": "025a52e06d7ee62e290a5ae62952ebd05867de553c7bc98a7277625f79644554",
+    "timestamp": "2025-10-28T13:00:53.361497+00:00",
+    "topico": "minharede/chat/carlos",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "Admin",
+    "destinatario": "yas",
+    "original": "oi",
+    "hash_msg": "025a52e06d7ee62e290a5ae62952ebd05867de553c7bc98a7277625f79644554",
+    "timestamp": "2025-10-28T13:01:15.031349+00:00",
+    "topico": "minharede/chat/yas",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "Admin",
+    "destinatario": "yas",
     "original": "oioioi",
-    "hash_msg": "2e12013a692bc6dfe9beb2d7b5db89069a4648c1070ba20246851f3b16f8e681",
-    "timestamp": "2025-10-24T11:34:42.337435+00:00",
-    "topico": "minharede/chat",
+    "hash_msg": "59f3d252ffa205f15fc8bdeb15a51bdc2a2a16665afae7c2700d59f037bb671b",
+    "timestamp": "2025-10-28T13:01:16.232327+00:00",
+    "topico": "minharede/chat/yas",
+    "broker": "test.mosquitto.org"
+  },
+  {
+    "remetente": "Admin",
+    "destinatario": "yas",
+    "original": "opioioyy",
+    "hash_msg": "e9c5069a7a799b4ddb8d833b09b63ed3473efb72bb8bd8f77948bafcce158f54",
+    "timestamp": "2025-10-28T13:01:17.521319+00:00",
+    "topico": "minharede/chat/yas",
     "broker": "test.mosquitto.org"
   }
 ]

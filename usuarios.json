@@ -1,17 +1,17 @@
 {
     "1": {
         "username": "yas",
-        "passwordHash": "631b2916c0e9901a43ba7a55c2d1d35c8629ee7c29d264f2575258702c968dff",
-        "tipo": "admin"
+        "passwordHash": "de2bfc258a879146f5d408cd19b8dd0a24882230ec485f78c9db52a568f5b6b5",
+        "tipo": "usuario"
     },
     "2": {
         "username": "gabi",
         "passwordHash": "de2bfc258a879146f5d408cd19b8dd0a24882230ec485f78c9db52a568f5b6b5",
-        "tipo": "usuario"
+        "tipo": "admin"
     },
     "3": {
-        "username": "leo",
+        "username": "carlos",
         "passwordHash": "de2bfc258a879146f5d408cd19b8dd0a24882230ec485f78c9db52a568f5b6b5",
-        "tipo": "admin"
+        "tipo": "usuario"
     }
 }

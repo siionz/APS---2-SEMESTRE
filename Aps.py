@@ -65,7 +65,7 @@ def loginUser():
                     MenuPrincipalADM()
                     return True
                 elif tipo == 'usuario':
-                    MenuPrincipalUser()
+                    MenuPrincipalUser(username_digitado)
                     return True
             else:
                 console.print("\n[bold red]Senha incorreta. Tente novamente.[/bold red]")
@@ -193,67 +193,132 @@ def menuPrincipal():
 
 def enviar_mensagem(
     broker="test.mosquitto.org",
-    topico="minharede/chat",
     arquivo="mensagens.json",
-    remetente="admin",
-    destinatario="usuario",
+    remetente="Admin",
     salt=None
 ):
     if salt is None:
         salt = input("Digite um salt para hash: ").strip()
-    cliente = mqtt.Client()
+
+    usuarios = carregarJson(arquivoUser)
+    if not usuarios:
+        console.print("[bold red]Nenhum usuário cadastrado.[/bold red]")
+        time.sleep(2)
+        return
+
+    LimparTela()
+    titulo("SELECIONAR DESTINATÁRIO")
+
+    table = Table(title="[bold cyan]Usuários Cadastrados[/bold cyan]", title_style="bold cyan", header_style="bold white on blue", padding=(0, 2))
+    table.add_column("ID", justify="center", style="bright_cyan")
+    table.add_column("Username", justify="center", style="magenta")
+    table.add_column("Tipo", justify="center", style="green")
+
+    for userId, dados in usuarios.items():
+        table.add_row(userId, dados.get('username', ''), dados.get('tipo', 'usuario'))
+    console.print(table, justify="center")
+
+    destinatario_id = Prompt.ask("\n[bold yellow]Digite o ID do destinatário[/bold yellow]").strip()
+    if destinatario_id not in usuarios:
+        console.print("[bold red]Usuário não encontrado![/bold red]")
+        time.sleep(2)
+        return
+
+    destinatario = usuarios[destinatario_id]['username']
+    topico_privado = f"minharede/chat/{destinatario}"
+
+    cliente = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
     cliente.connect(broker, 1883, 60)
     cliente.loop_start()
+
     mensagens = carregar_json(arquivo)
-    remetente_hash = hashlib.sha256((remetente + salt).encode('utf-8')).hexdigest()
-    destinatario_hash = hashlib.sha256((destinatario + salt).encode('utf-8')).hexdigest()
+
+    LimparTela()
+    titulo(f"CHAT PRIVADO → {destinatario.upper()}")
+
+    console.print(Panel.fit(
+        "[bold cyan]Digite suas mensagens abaixo.[/bold cyan]\n[dim]Digite 'sair' para encerrar a conversa.[/dim]",
+        border_style="cyan",
+        title=f" Chat com {destinatario}",
+        title_align="center"
+    ))
+
     try:
         while True:
-            console.print("\n[bold cyan]Para sua segurança, todas as mensagens são criptografadas. Digite 'sair' para encerrar.[/bold cyan]")
-            msg = input(Fore.CYAN + "Você: " + Style.RESET_ALL).strip()
+            msg = Prompt.ask(Fore.LIGHTCYAN_EX + f"{remetente}" + Fore.RESET)
             if msg.lower() == "sair":
+                console.print("[bold yellow]Encerrando chat...[/bold yellow]")
                 break
-            if not msg:
+            if not msg.strip():
                 continue
-            cliente.publish(topico, msg)
+
+            cliente.publish(topico_privado, f"{remetente}:{msg}")
+
             registro = {
-                "remetente": remetente_hash,
-                "destinatario": destinatario_hash,
+                "remetente": remetente,
+                "destinatario": destinatario,
                 "original": msg,
                 "hash_msg": hash_mensagem(msg, salt),
                 "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-                "topico": topico,
+                "topico": topico_privado,
                 "broker": broker
             }
             mensagens.append(registro)
             salvar_json(arquivo, mensagens)
-            console.print(f"[bold green]Mensagem enviada![/bold green]  [dim]{datetime.datetime.now().strftime('%H:%M:%S')}[/dim]")
+
+            hora = datetime.datetime.now().strftime("%H:%M:%S")
+            console.print(f"[{hora}] [bold green]{remetente} →[/bold green] [white]{msg}[/white]")
     except KeyboardInterrupt:
-        pass
+        console.print("\n[bold yellow]Chat encerrado pelo usuário.[/bold yellow]")
     finally:
         cliente.loop_stop()
         cliente.disconnect()
 
-def receber_mensagem(
-    broker="test.mosquitto.org",
-    topico="minharede/chat"
-):
+
+def receber_mensagem(usuario, broker="test.mosquitto.org"):
+    topico = f"minharede/chat/{usuario}"
+
     def on_message(client, userdata, message):
-        console.print(f"\n💬 [cyan]Mensagem recebida[/cyan] → [bold yellow]{message.payload.decode()}[/bold yellow]")
-    cliente = mqtt.Client()
+        hora = datetime.datetime.now().strftime("%H:%M:%S")
+        conteudo = message.payload.decode()
+
+        if ":" in conteudo:
+            remetente, texto = conteudo.split(":", 1)
+        else:
+            remetente, texto = "Desconhecido", conteudo
+
+        if remetente.lower() == "admin":
+            remetente_exibido = "[bold red]Admin[/bold red]"
+        else:
+            remetente_exibido = f"[bold cyan]{remetente}[/bold cyan]"
+
+        console.print(f"[{hora}] {remetente_exibido} → [white]{texto}[/white]")
+
+    cliente = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
     cliente.on_message = on_message
     cliente.connect(broker, 1883, 60)
     cliente.subscribe(topico)
     cliente.loop_start()
+
+    LimparTela()
+    titulo(f" CHAT PRIVADO ({usuario.upper()})")
+
+    console.print(Panel.fit(
+        f"[bold cyan]Escutando mensagens no tópico '{topico}'.[/bold cyan]\n[dim]Pressione Ctrl+C para sair.[/dim]",
+        border_style="magenta",
+        title="Mensagens Criptografadas",
+        title_align="center"
+    ))
+
     try:
-        console.print(f"[bold blue]Escutando mensagens no tópico '{topico}'. Para sua segurança, todas as mensagens são criptografadas. Pressione Ctrl+C para sair.[/bold blue]")
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        pass
+        console.print("\n[bold yellow]Chat encerrado.[/bold yellow]")
     finally:
         cliente.loop_stop()
         cliente.disconnect()
+
 
 def MenuPrincipalADM():
     while True:
@@ -271,18 +336,26 @@ def MenuPrincipalADM():
             console.print(Fore.RED + "Digite algo válido")
     LimparTela()
 
-def MenuPrincipalUser():
+def MenuPrincipalUser(usuario):
     while True:
         LimparTela()
-        titulo("MENU USUÁRIO")
-        console.print(Panel.fit("[1] - Mensagens Recebidas\n[2] - Sair", border_style="magenta"))
+        titulo(f"MENU DO USUÁRIO ({usuario.upper()})")
+        console.print(Panel.fit(
+            "[1] - Mensagens Recebidas\n[2] - Sair",
+            border_style="magenta",
+            title="Selecione uma opção",
+            title_align="center"
+        ))
         result = input("➤ ").strip()
         if result == '1':
-            receber_mensagem()
+            receber_mensagem(usuario)
         elif result == '2':
+            console.print("[bold yellow]Saindo...[/bold yellow]")
+            time.sleep(1)
             break
         else:
-            console.print(Fore.RED + "Digite algo válido")
+            console.print(Fore.RED + "Digite algo válido!")
+            time.sleep(1)
     LimparTela()
 
 if __name__ == "__main__":
