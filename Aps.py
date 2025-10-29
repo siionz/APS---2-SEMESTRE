@@ -103,10 +103,57 @@ def adicionarUsers():
     time.sleep(2)
 
 def modificarUser():
-    for UserId, username in carregarJson(arquivoUser).items():
-        print(f"ID: {UserId} | Usuário: {username['username']} | Tipo: {username['tipo']}")
-    modUser = input("Digite o ID do usuário que deseja modificar: ").strip()
-    return
+    LimparTela()
+    titulo("MODIFICAR USUÁRIOS")
+
+    usuarios = carregarJson(arquivoUser)
+    if not usuarios:
+        console.print("[bold red]Nenhum usuário cadastrado.[/bold red]")
+        time.sleep(2)
+        return
+
+    console.print("\n[bold cyan]Usuários Cadastrados:[/bold cyan]")
+    for uid, dados in usuarios.items():
+        console.print(f"ID: [bold yellow]{uid}[/bold yellow] | Username: [bold magenta]{dados.get('username','')}[/bold magenta] | Tipo: [bold green]{dados.get('tipo','usuario')}[/bold green]")
+
+    uid = input(Fore.CYAN + "\nDigite o ID do usuário que deseja modificar: " + Style.RESET_ALL).strip()
+    if not uid:
+        return
+    if uid not in usuarios:
+        console.print("[bold red]Usuário não encontrado.[/bold red]")
+        time.sleep(2)
+        return
+
+    user = usuarios[uid]
+    atual_username = user.get('username', '')
+    atual_tipo = user.get('tipo', 'usuario')
+
+    novo_username = input(Fore.CYAN + f"Digite o novo username (atual: {atual_username}): " + Style.RESET_ALL).strip()
+    nova_senha = input(Fore.CYAN + "Digite a nova senha (deixe em branco para manter a atual): " + Style.RESET_ALL).strip()
+    novo_tipo = input(Fore.CYAN + f"Digite o novo tipo (admin/usuario) (atual: {atual_tipo}): " + Style.RESET_ALL).strip().lower()
+
+    if novo_username and any(d.get('username') == novo_username for k, d in usuarios.items() if k != uid):
+        console.print("[bold red]Username já existe. Tente novamente.[/bold red]")
+        time.sleep(2)
+        return
+
+    if novo_tipo and novo_tipo not in ['admin', 'usuario']:
+        console.print("[bold red]Tipo inválido. Deve ser 'admin' ou 'usuario'.[/bold red]")
+        time.sleep(2)
+        return
+
+    if novo_username:
+        user['username'] = novo_username
+    if nova_senha:
+        user['passwordHash'] = criptografarSenha(nova_senha)
+    if novo_tipo:
+        user['tipo'] = novo_tipo
+
+    salvar_dados(arquivoUser, usuarios)
+    console.print("[bold green]Usuário modificado com sucesso![/bold green]")
+    time.sleep(2)
+
+
 
 def excluirUsers():
     LimparTela()
