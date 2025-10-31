@@ -15,17 +15,17 @@ from typing import Optional
 init(autoreset=True)
 console = Console()
 
-arquivoUser = "usuarios.json"  # Faz o arquivoUser receber o json usuarios
+arquivoUser = "usuarios.json"  
 salt_digitado = input("Insira um salt para você utilizar: ").strip()
 
-def LimparTela():  # Função para limpar a tela do prompt
+def LimparTela():  
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def titulo(texto): # Função para estilizar o titul
+def titulo(texto): 
     banner = pyfiglet.figlet_format(texto, font="slant")
-    console.print(Panel.fit(f"[bold blue]{banner}[/bold blue]", border_style="cyan", padding=(1, 5), title="💠 Sistema Seguro 💠", title_align="center"), justify="center")
+    console.print(Panel.fit(f"[bold blue]{banner}[/bold blue]", border_style="cyan", padding=(1, 5), title="// Sistema Seguro - MARINHA //", title_align="center"), justify="center")
 
-def criptografarSenha(senha): # Criptografa a senha com SHA-256
+def criptografarSenha(senha): 
     salt = salt_digitado
     senhaComSalt = senha + salt
     hashSenha = hashlib.sha256(senhaComSalt.encode()).hexdigest()
@@ -35,14 +35,14 @@ def verificarSenha(senhaDigitada, hashArmazenado):
     hashDigitada = criptografarSenha(senhaDigitada)
     return hashDigitada == hashArmazenado
 
-def carregarJson(arquivo): # Carrega o json (usuários) para leitura
+def carregarJson(arquivo): 
     try:
         with open(arquivo, 'r', encoding='utf-8') as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
 
-def salvar_dados(arquivo, dados):  # Insere os dados no json (usuarios)
+def salvar_dados(arquivo, dados): 
     with open(arquivo, 'w', encoding='utf-8') as f:
         json.dump(dados, f, ensure_ascii=False, indent=4)
 
@@ -53,7 +53,7 @@ def loginUser():
 
     username_digitado = input(Fore.CYAN + "\nDigite seu username: " + Style.RESET_ALL).strip()
     senha = input(Fore.CYAN + "Digite sua senha: " + Style.RESET_ALL).strip()
-
+        
     for userId, username in usuarios.items():
         if username['username'] == username_digitado:
             if verificarSenha(senha, username.get('passwordHash', '')):
@@ -70,6 +70,7 @@ def loginUser():
             else:
                 console.print("\n[bold red]Senha incorreta. Tente novamente.[/bold red]")
                 time.sleep(2)
+                loginUser()
                 return
     console.print("[bold red]Usuário não encontrado.[/bold red]")
     time.sleep(2)
@@ -89,6 +90,24 @@ def adicionarUsers():
         return
 
     senha = input(Fore.CYAN + "Digite a senha do novo usuário: " + Style.RESET_ALL).strip()
+    minusculo = lambda: any(c.islower() for c in senha)
+    maiusculo = lambda: any(c.isupper() for c in senha)
+    numeros = lambda: any(c.isdigit() for c in senha)
+    caracteres_especiais = lambda: any(not c.isalnum() for c in senha)
+    
+    while True:
+        if len(senha) < 8:
+            console.print("\n[bold red]A senha deve ter no mínimo 8 caracteres. Tente novamente.[/bold red]")
+            time.sleep(2)
+            adicionarUsers()
+        elif not minusculo() or not maiusculo() or not numeros or not caracteres_especiais():
+            console.print("\n[bold red]A senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais. Tente novamente.[/bold red]")
+            time.sleep(2)
+            adicionarUsers()
+            break
+        else:
+            break
+        
     tipo = input(Fore.CYAN + "Digite o tipo do usuário (admin/usuario): " + Style.RESET_ALL).strip().lower()
     senha_hash = criptografarSenha(senha)
     novo_id = str(len(usuarios) + 1)
@@ -193,7 +212,7 @@ def gerenciamentoUser():
         LimparTela()
         titulo("GERENCIAMENTO DE USUÁRIOS")
         console.print(Panel.fit("[1] - Adicionar Usuários\n[2] - Modificar Usuários\n[3] - Excluir Usuários\n[4] - Sair", title="Escolha uma opção", border_style="blue"))
-        result = input("➤ ").strip()
+        result = input("> ").strip()
         if result == '1':
             adicionarUsers()
         elif result == '2':
@@ -225,22 +244,23 @@ def menuPrincipal():
         LimparTela()
         titulo("MENU PRINCIPAL")
         console.print(Panel.fit("[1] - Logar como usuário\n[2] - Logar como administrador\n[3] - Cadastrar novo usuário\n[4] - Sair", border_style="cyan", title="Escolha uma opção"))
-        result = input("➤ ").strip()
-        if result == '1' or result == '2':
+        result = input("> ").strip()
+        if result == '4':
+            LimparTela()
+            break
+        elif result == '1' or result == '2':
             if loginUser():
                 LimparTela()
         elif result == '3':
             adicionarUsers()
-        elif result == '4':
-            break
         else:
             console.print(Fore.RED + "Digite uma opção válida!")
             time.sleep(2)
             LimparTela()
-
+            
+#///////////////////////////// MQTT /////////////////////////////
 def enviar_mensagem(
     broker="test.mosquitto.org",
-    arquivo="mensagens.json",
     remetente="Admin",
     salt=None
 ):
@@ -278,10 +298,10 @@ def enviar_mensagem(
     cliente.connect(broker, 1883, 60)
     cliente.loop_start()
 
-    mensagens = carregar_json(arquivo)
-
     LimparTela()
     titulo(f"CHAT PRIVADO → {destinatario.upper()}")
+    contador = 1
+    nome_base = input("Digite o nome do arquivo de histórico de mensagens: ").strip()
 
     console.print(Panel.fit(
         "[bold cyan]Digite suas mensagens abaixo.[/bold cyan]\n[dim]Digite 'sair' para encerrar a conversa.[/dim]",
@@ -310,13 +330,16 @@ def enviar_mensagem(
                 "topico": topico_privado,
                 "broker": broker
             }
-            mensagens.append(registro)
-            salvar_json(arquivo, mensagens)
+            
+            nome_arquivo = f"{nome_base}_{contador}.json"
+            salvar_json(nome_arquivo, registro)
+            contador += 1
 
             hora = datetime.datetime.now().strftime("%H:%M:%S")
             console.print(f"[{hora}] [bold green]{remetente} →[/bold green] [white]{msg}[/white]")
+            
     except KeyboardInterrupt:
-        console.print("\n[bold yellow]Chat encerrado pelo usuário.[/bold yellow]")
+        console.print("\n[bold yellow]Chat encerrado.[/bold yellow]")
     finally:
         cliente.loop_stop()
         cliente.disconnect()
@@ -365,14 +388,15 @@ def receber_mensagem(usuario, broker="test.mosquitto.org"):
     finally:
         cliente.loop_stop()
         cliente.disconnect()
-
+        
+ #//////////////////////////////////////////////////////////
 
 def MenuPrincipalADM():
     while True:
         LimparTela()
         titulo("MENU ADMINISTRADOR")
         console.print(Panel.fit("[1] - Gerenciamento de Usuários\n[2] - Envio de Mensagens\n[3] - Sair", border_style="green"))
-        result = input("➤ ").strip()
+        result = input("> ").strip()
         if result == '1':
             gerenciamentoUser()
         elif result == '2':
@@ -393,7 +417,7 @@ def MenuPrincipalUser(usuario):
             title="Selecione uma opção",
             title_align="center"
         ))
-        result = input("➤ ").strip()
+        result = input("> ").strip()
         if result == '1':
             receber_mensagem(usuario)
         elif result == '2':
