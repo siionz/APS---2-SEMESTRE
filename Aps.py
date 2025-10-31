@@ -11,6 +11,7 @@ from rich.panel import Panel
 import paho.mqtt.client as mqtt
 import datetime
 from typing import Optional
+import threading
 
 init(autoreset=True)
 console = Console()
@@ -292,7 +293,8 @@ def enviar_mensagem(
         return
 
     destinatario = usuarios[destinatario_id]['username']
-    topico_privado = f"minharede/chat/{destinatario}"
+    topico_privado = f"minharede/chat/{destinatario.lower().strip()}"
+
 
     cliente = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
     cliente.connect(broker, 1883, 60)
@@ -346,7 +348,8 @@ def enviar_mensagem(
 
 
 def receber_mensagem(usuario, broker="test.mosquitto.org"):
-    topico = f"minharede/chat/{usuario}"
+    topico = f"minharede/chat/{usuario.lower().strip()}"
+
 
     def on_message(client, userdata, message):
         hora = datetime.datetime.now().strftime("%H:%M:%S")
@@ -379,6 +382,13 @@ def receber_mensagem(usuario, broker="test.mosquitto.org"):
         title="Mensagens Criptografadas",
         title_align="center"
     ))
+    
+    responder = input(Fore.LIGHTMAGENTA_EX + "Deseja responder às mensagens? (s/n): " + Fore.RESET).strip().lower()
+    if responder == 's':
+        thread_envio = threading.Thread(target=enviar_mensagem, kwargs={"broker": broker, "remetente": usuario})
+        thread_envio.start()
+    else:
+        console.print("[bold yellow]Você escolheu não responder às mensagens.[/bold yellow]")
 
     try:
         while True:
@@ -388,7 +398,6 @@ def receber_mensagem(usuario, broker="test.mosquitto.org"):
     finally:
         cliente.loop_stop()
         cliente.disconnect()
-        
  #//////////////////////////////////////////////////////////
 
 def MenuPrincipalADM():
