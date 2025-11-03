@@ -1,27 +1,7 @@
 {
     "1": {
-        "username": "yas",
-        "passwordHash": "de2bfc258a879146f5d408cd19b8dd0a24882230ec485f78c9db52a568f5b6b5",
-        "tipo": "usuario"
-    },
-    "2": {
-        "username": "gabi",
-        "passwordHash": "de2bfc258a879146f5d408cd19b8dd0a24882230ec485f78c9db52a568f5b6b5",
-        "tipo": "admin"
-    },
-    "3": {
-        "username": "carlos",
-        "passwordHash": "de2bfc258a879146f5d408cd19b8dd0a24882230ec485f78c9db52a568f5b6b5",
-        "tipo": "usuario"
-    },
-    "4": {
-        "username": "gaab",
-        "passwordHash": "de2bfc258a879146f5d408cd19b8dd0a24882230ec485f78c9db52a568f5b6b5",
-        "tipo": "admin"
-    },
-    "5": {
-        "username": "ui",
-        "passwordHash": "de2bfc258a879146f5d408cd19b8dd0a24882230ec485f78c9db52a568f5b6b5",
+        "username": "Molina",
+        "passwordHash": "c41e4c83b8f10bcf0b1191db751f6429b5d872f9cfe0d7543193932f3d69f3f0",
         "tipo": "admin"
     }
 }

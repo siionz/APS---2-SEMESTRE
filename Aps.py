@@ -11,6 +11,7 @@ from rich.panel import Panel
 import paho.mqtt.client as mqtt
 import datetime
 from typing import Optional
+import threading
 
 init(autoreset=True)
 console = Console()
@@ -41,6 +42,7 @@ def carregarJson(arquivo):
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
+    
 
 def salvar_dados(arquivo, dados): 
     with open(arquivo, 'w', encoding='utf-8') as f:
@@ -243,16 +245,14 @@ def menuPrincipal():
     while True:
         LimparTela()
         titulo("MENU PRINCIPAL")
-        console.print(Panel.fit("[1] - Logar como usuário\n[2] - Logar como administrador\n[3] - Cadastrar novo usuário\n[4] - Sair", border_style="cyan", title="Escolha uma opção"))
+        console.print(Panel.fit("[1] - Logar como usuário\n[2] - Logar como administrador\n[3] - Sair", border_style="cyan", title="Escolha uma opção"))
         result = input("> ").strip()
-        if result == '4':
+        if result == '3':
             LimparTela()
             break
         elif result == '1' or result == '2':
             if loginUser():
                 LimparTela()
-        elif result == '3':
-            adicionarUsers()
         else:
             console.print(Fore.RED + "Digite uma opção válida!")
             time.sleep(2)
@@ -292,7 +292,8 @@ def enviar_mensagem(
         return
 
     destinatario = usuarios[destinatario_id]['username']
-    topico_privado = f"minharede/chat/{destinatario}"
+    topico_privado = f"minharede/chat/{destinatario.lower().strip()}"
+
 
     cliente = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
     cliente.connect(broker, 1883, 60)
@@ -346,7 +347,7 @@ def enviar_mensagem(
 
 
 def receber_mensagem(usuario, broker="test.mosquitto.org"):
-    topico = f"minharede/chat/{usuario}"
+    topico = f"minharede/chat/{usuario.lower().strip()}"
 
     def on_message(client, userdata, message):
         hora = datetime.datetime.now().strftime("%H:%M:%S")
@@ -379,6 +380,13 @@ def receber_mensagem(usuario, broker="test.mosquitto.org"):
         title="Mensagens Criptografadas",
         title_align="center"
     ))
+    
+    responder = input(Fore.LIGHTMAGENTA_EX + "Deseja responder às mensagens? (s/n): " + Fore.RESET).strip().lower()
+    if responder == 's':
+        thread_envio = threading.Thread(target=enviar_mensagem, kwargs={"broker": broker, "remetente": usuario})
+        thread_envio.start()
+    else:
+        console.print("[bold yellow]Você escolheu não responder às mensagens.[/bold yellow]")
 
     try:
         while True:
