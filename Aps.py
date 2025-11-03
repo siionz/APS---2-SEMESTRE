@@ -12,6 +12,7 @@ import paho.mqtt.client as mqtt
 import datetime
 from typing import Optional
 import threading
+import threading
 
 init(autoreset=True)
 console = Console()
@@ -396,7 +397,6 @@ def receber_mensagem(usuario, broker="test.mosquitto.org"):
     finally:
         cliente.loop_stop()
         cliente.disconnect()
-        
  #//////////////////////////////////////////////////////////
 
 def MenuPrincipalADM():
