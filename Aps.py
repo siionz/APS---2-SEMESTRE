@@ -12,7 +12,6 @@ import paho.mqtt.client as mqtt
 import datetime
 from typing import Optional
 import threading
-import threading
 
 init(autoreset=True)
 console = Console()
