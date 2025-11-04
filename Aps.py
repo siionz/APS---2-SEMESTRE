@@ -8,6 +8,7 @@ from rich.console import Console
 from rich.prompt import Prompt
 from rich.table import Table
 from rich.panel import Panel
+from rich.align import Align
 import paho.mqtt.client as mqtt
 import datetime
 from typing import Optional
@@ -22,9 +23,19 @@ salt_digitado = input("Insira um salt para você utilizar: ").strip()
 def LimparTela():  
     os.system('cls' if os.name == 'nt' else 'clear')
 
+# ====== APENAS VISUAL AJUSTADO ======
 def titulo(texto): 
-    banner = pyfiglet.figlet_format(texto, font="slant")
-    console.print(Panel.fit(f"[bold blue]{banner}[/bold blue]", border_style="cyan", padding=(1, 5), title="// Sistema Seguro - MARINHA //", title_align="center"), justify="center")
+    banner = pyfiglet.figlet_format(texto, font="slant")  # Fonte ajustada para CMD
+    painel = Panel(
+        Align.center(f"[bold blue]{banner}[/bold blue]", vertical="middle"),
+        border_style="cyan",
+        padding=(0, 2),
+        title="// Sistema Seguro - MARINHA //",
+        title_align="center",
+        width=100
+    )
+    console.print(Align.center(painel))
+# ====================================
 
 def criptografarSenha(senha): 
     salt = salt_digitado
@@ -43,14 +54,13 @@ def carregarJson(arquivo):
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
     
-
 def salvar_dados(arquivo, dados): 
     with open(arquivo, 'w', encoding='utf-8') as f:
         json.dump(dados, f, ensure_ascii=False, indent=4)
 
 def loginUser():
     LimparTela()
-    titulo("Login de Usuários")
+    titulo("Login de Usuarios")
     usuarios = carregarJson(arquivoUser)
 
     username_digitado = input(Fore.CYAN + "\nDigite seu username: " + Style.RESET_ALL).strip()

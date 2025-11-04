@@ -3,5 +3,10 @@
         "username": "Molina",
         "passwordHash": "c41e4c83b8f10bcf0b1191db751f6429b5d872f9cfe0d7543193932f3d69f3f0",
         "tipo": "admin"
+    },
+    "2": {
+        "username": "cahe",
+        "passwordHash": "dd5002d7658de689787a8fc71ee27534ab7e21eb5744f3e05f59a2662c8743e6",
+        "tipo": "usuario"
     }
 }
