@@ -255,7 +255,7 @@ def menuPrincipal():
     while True:
         LimparTela()
         titulo("MENU PRINCIPAL")
-        console.print(Panel.fit("[1] - Logar como usuário\n[2] - Logar como administrador\n[3] - Sair", border_style="cyan", title="Escolha uma opção"))
+        console.print(Align.center(Panel.fit("[1] - Logar como usuário\n[2] - Logar como administrador\n[3] - Sair", border_style="cyan", title="Escolha uma opção")))
         result = input("> ").strip()
         if result == '3':
             LimparTela()
@@ -443,7 +443,7 @@ def MenuPrincipalADM():
     while True:
         LimparTela()
         titulo("MENU ADMINISTRADOR")
-        console.print(Panel.fit("[1] - Gerenciamento de Usuários\n[2] - Envio de Mensagens\n[3] - Sair", border_style="green"))
+        console.print(Align.center(Panel.fit("[1] - Gerenciamento de Usuários\n[2] - Envio de Mensagens\n[3] - Sair", border_style="green")))
         result = input("> ").strip()
         if result == '1':
             gerenciamentoUser()
@@ -459,12 +459,12 @@ def MenuPrincipalUser(usuario):
     while True:
         LimparTela()
         titulo(f"MENU DO USUÁRIO ({usuario.upper()})")
-        console.print(Panel.fit(
+        console.print(Align.center(Panel.fit(
             "[1] - Mensagens Recebidas\n[2] - Sair",
             border_style="magenta",
             title="Selecione uma opção",
             title_align="center"
-        ))
+        )))
         result = input("> ").strip()
         if result == '1':
             receber_mensagem(usuario)
