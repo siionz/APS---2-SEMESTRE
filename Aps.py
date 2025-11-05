@@ -24,6 +24,7 @@ def LimparTela():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 # ====== APENAS VISUAL AJUSTADO ======
+
 def titulo(texto): 
     banner = pyfiglet.figlet_format(texto, font="slant")  # Fonte ajustada para CMD
     painel = Panel(
@@ -35,6 +36,7 @@ def titulo(texto):
         width=100
     )
     console.print(Align.center(painel))
+    
 # ====================================
 
 def criptografarSenha(senha): 
@@ -184,8 +186,6 @@ def modificarUser():
     console.print("[bold green]Usuário modificado com sucesso![/bold green]")
     time.sleep(2)
 
-
-
 def excluirUsers():
     LimparTela()
     titulo("EXCLUIR USUÁRIOS")
@@ -269,6 +269,7 @@ def menuPrincipal():
             LimparTela()
             
 #///////////////////////////// MQTT /////////////////////////////
+
 def enviar_mensagem(
     broker="test.mosquitto.org",
     remetente="Admin",
@@ -314,6 +315,7 @@ def enviar_mensagem(
     contador = 1
     nome_base = input("Digite o nome do arquivo de histórico de mensagens: ").strip()
 
+
     console.print(Panel.fit(
         "[bold cyan]Digite suas mensagens abaixo.[/bold cyan]\n[dim]Digite 'sair' para encerrar a conversa.[/dim]",
         border_style="cyan",
@@ -326,7 +328,7 @@ def enviar_mensagem(
             msg = Prompt.ask(Fore.LIGHTCYAN_EX + f"{remetente}" + Fore.RESET)
             if msg.lower() == "sair":
                 console.print("[bold yellow]Encerrando chat...[/bold yellow]")
-                break
+                break 
             if not msg.strip():
                 continue
 
@@ -343,6 +345,8 @@ def enviar_mensagem(
             }
             
             nome_arquivo = f"{nome_base}_{contador}.json"
+            nome_arquivo_geral = f"{nome_base}_geral.json"
+            salvar_json(nome_arquivo_geral, registro)
             salvar_json(nome_arquivo, registro)
             contador += 1
 
@@ -355,6 +359,32 @@ def enviar_mensagem(
         cliente.loop_stop()
         cliente.disconnect()
 
+def historico_mensagens(usuario):
+    LimparTela()
+    titulo(f"HISTÓRICO DE MENSAGENS - {usuario.upper()}")
+    arquivos = [f for f in os.listdir('.') if f.startswith(f"{usuario}_") and f.endswith('.json')]
+
+    if not arquivos:
+        console.print("[bold red]Nenhum histórico de mensagens encontrado.[/bold red]")
+        time.sleep(2)
+        return
+
+    for arquivo in arquivos:
+        dados = carregar_json(arquivo)
+        console.print(Panel.fit(
+            f"[bold cyan]Remetente:[/bold cyan] {dados.get('remetente','')}\n"
+            f"[bold cyan]Destinatário:[/bold cyan] {dados.get('destinatario','')}\n"
+            f"[bold cyan]Mensagem Original:[/bold cyan] {dados.get('original','')}\n"
+            f"[bold cyan]Hash da Mensagem:[/bold cyan] {dados.get('hash_msg','')}\n"
+            f"[bold cyan]Timestamp:[/bold cyan] {dados.get('timestamp','')}\n"
+            f"[bold cyan]Tópico MQTT:[/bold cyan] {dados.get('topico','')}\n"
+            f"[bold cyan]Broker MQTT:[/bold cyan] {dados.get('broker','')}",
+            border_style="green",
+            title=f"Arquivo: {arquivo}",
+            title_align="center"
+        ))
+        console.print("\n")
+    input("Pressione Enter para voltar ao menu...")
 
 def receber_mensagem(usuario, broker="test.mosquitto.org"):
     topico = f"minharede/chat/{usuario.lower().strip()}"
@@ -406,6 +436,7 @@ def receber_mensagem(usuario, broker="test.mosquitto.org"):
     finally:
         cliente.loop_stop()
         cliente.disconnect()
+        
  #//////////////////////////////////////////////////////////
 
 def MenuPrincipalADM():
@@ -437,7 +468,11 @@ def MenuPrincipalUser(usuario):
         result = input("> ").strip()
         if result == '1':
             receber_mensagem(usuario)
+            
         elif result == '2':
+            historico_mensagens(usuario)
+            
+        elif result == '3':
             console.print("[bold yellow]Saindo...[/bold yellow]")
             time.sleep(1)
             break

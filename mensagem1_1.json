@@ -1,9 +1,0 @@
-{
-  "remetente": "cahe",
-  "destinatario": "Molina",
-  "original": "hello word",
-  "hash_msg": "6d72a8028fed090ae0fe6bbbfecf7dc4c96b4c5c3215b555683dc8c425c1a9e1",
-  "timestamp": "2025-11-04T02:39:49.852523+00:00",
-  "topico": "minharede/chat/molina",
-  "broker": "test.mosquitto.org"
-}

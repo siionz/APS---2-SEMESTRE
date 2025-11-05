@@ -8,5 +8,10 @@
         "username": "cahe",
         "passwordHash": "dd5002d7658de689787a8fc71ee27534ab7e21eb5744f3e05f59a2662c8743e6",
         "tipo": "usuario"
+    },
+    "3": {
+        "username": "gabi",
+        "passwordHash": "06c6117c9c6aba2d4a5688a634b29dcaab102e93de86ac108435fe5e0bddf539",
+        "tipo": "usuario"
     }
 }
