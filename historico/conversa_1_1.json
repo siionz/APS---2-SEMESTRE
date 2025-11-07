@@ -1,0 +1,12 @@
+[
+  {
+    "remetente": "Admin",
+    "destinatario": "Cahe",
+    "mensagem_criptografada": "gAAAAABpDkW-_C69HkTku32sDknc9hkTb0K69Ar0M12DTovRrOsSbt2mD8CTTF__8Mbp9ERHUJmZiQ95aOpp8MB6XOPKQE3RlGz_omgaVhmAqPK5_E6P8_CUHxHL-dPUvV0Zs-u_fnh7",
+    "hash_msg": "7108182425265e55909830afee24e459d1982a81f8e023c1b4ec99719e61fe56",
+    "timestamp": "2025-11-07T19:17:18.367381+00:00",
+    "topico": "minharede/chat/cahe",
+    "broker": "test.mosquitto.org",
+    "usou_chave_destinatario": true
+  }
+]

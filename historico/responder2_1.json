@@ -1,0 +1,12 @@
+[
+  {
+    "remetente": "Cahe",
+    "destinatario": "Molina",
+    "mensagem_criptografada": "gAAAAABpDkYiKhKsXkhh5JL2OTACr3pazvBOCeYNf0Dl8dEVO_MJ7qsM90KmdVgcjwQ7y9lB1LOTdaV-vkipbW-3I2ZnhyYUXg==",
+    "hash_msg": "373be411a1f6ae1aa06508a1d8b79a05a63a5f21716db50a33d67278918701f5",
+    "timestamp": "2025-11-07T19:18:58.921516+00:00",
+    "topico": "minharede/chat/molina",
+    "broker": "test.mosquitto.org",
+    "usou_chave_destinatario": true
+  }
+]
