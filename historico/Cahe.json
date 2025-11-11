@@ -68,5 +68,61 @@
     "topico": "minharede/chat/cahe",
     "broker": "test.mosquitto.org",
     "descriptografavel": true
+  },
+  {
+    "remetente": "Admin",
+    "destinatario": "Cahe",
+    "mensagem_criptografada": "gAAAAABpErEWk7PQPjlIZerR38ASPMGQ9jBujlJw2vchJaNgwhMDH4I5PKG7RoxAYSvDXYuZy5MVh8UzM-4f3u4Xx7LdUlC8bzFU8K2ayXUQj2ZjoCLKTIg=",
+    "hash_msg": "b289fcf944eff722731d8a5512643c977945a27ba75d72e8ff29f209617e5cf3",
+    "timestamp": "2025-11-11T03:44:22.906094+00:00",
+    "topico": "minharede/chat/cahe",
+    "broker": "test.mosquitto.org",
+    "usou_chave_destinatario": true
+  },
+  {
+    "remetente": "Admin",
+    "destinatario": "Cahe",
+    "mensagem_criptografada": "gAAAAABpErEfVk0Q9lpCQHlDUpGQDTlOsAn2MV9JiydoPB_KLG9WPwKRA3X3HgDg4JrtsDPZ3UusQaOJqnzeO4sxr4NRLzVZSHgiCFekTTxXvbgR5g9nDN4=",
+    "hash_msg": "8fc30ad1e01b133601c41a677f14066eb011e8972451274614efa8025c00714a",
+    "timestamp": "2025-11-11T03:44:31.286711+00:00",
+    "topico": "minharede/chat/cahe",
+    "broker": "test.mosquitto.org",
+    "usou_chave_destinatario": true
+  },
+  {
+    "remetente": "Cahe",
+    "destinatario": "Cahe",
+    "mensagem_criptografada": "gAAAAABpErFWTXTxg1NfDIq_OLJWHROJIMGMb1Z_1TX_qL_ljiDQh6mgZlp23b1HnGpvbo-Ue74rfvNqVzNneLbFi64CMOfUUA==",
+    "hash_msg": "6f5dbc4d240ed23df30e22fb903fceec9d0f1527639965d4e4035782b2ee1672",
+    "timestamp": "2025-11-11T03:45:26.093918+00:00",
+    "topico": "minharede/chat/cahe",
+    "broker": "test.mosquitto.org",
+    "usou_chave_destinatario": true
+  },
+  {
+    "remetente": "Cahe",
+    "destinatario": "Cahe",
+    "mensagem_criptografada": "gAAAAABpErFWTXTxg1NfDIq_OLJWHROJIMGMb1Z_1TX_qL_ljiDQh6mgZlp23b1HnGpvbo-Ue74rfvNqVzNneLbFi64CMOfUUA==",
+    "hash_msg": "6f5dbc4d240ed23df30e22fb903fceec9d0f1527639965d4e4035782b2ee1672",
+    "timestamp": "2025-11-11T03:45:26.093918+00:00",
+    "topico": "minharede/chat/cahe",
+    "broker": "test.mosquitto.org",
+    "usou_chave_destinatario": true
+  },
+  {
+    "remetente": "Cahe",
+    "destinatario": "Cahe",
+    "mensagem_criptografada": "gAAAAABpErFWTXTxg1NfDIq_OLJWHROJIMGMb1Z_1TX_qL_ljiDQh6mgZlp23b1HnGpvbo-Ue74rfvNqVzNneLbFi64CMOfUUA==",
+    "hash_msg": "6f5dbc4d240ed23df30e22fb903fceec9d0f1527639965d4e4035782b2ee1672",
+    "timestamp": "2025-11-11T03:45:26.288669+00:00",
+    "topico": "minharede/chat/cahe",
+    "broker": "test.mosquitto.org",
+    "descriptografavel": true
+  },
+  {
+    "pacote_criptografado": "gAAAAABpErskud-WTVryGvS8mm18kC_hDimUtvZksMaUvYvoguxH2YGMX3jsC6lD-o3umCiWkZzbtcQ5n7qqFSH0ZSNp_J5uhAHm_4YDbXwJYVzN8N2sjEsaO8of42Lxyg4P--DeYJpvf4VWplbUaieDhJqo64WOQiRqBhDXSPa4O10agq1knXvTcSKA1FBEPp2WbDCXKTPNMhMI__1rP-49HZUKn2DLcgL-JcuXqd_HkYLFp0N3oksqNbvtPJR8EtUZPI5rI3etcVrZ_uKhkzX7tBRmF_PHrhQI_D8FsfQIHhqsvPc7gbh-zmeWrIG23UiXiiJD-1pNApLoCExnavPb3Jjp_HiiuLZ0F3FEgtfj2Ta-7ZfNB8plbtIBDv78DD6-0lIRQSeOL8hXchvbc6gGHP_nAISScb9INBF6ROayMKyJQvGve313xGc4ZYOhmnoHR9HeJ0JB-kNksriNUe_aNlGsrdLryqF0xjmbEQ9gUZ1u2sSfsxVyo9EVAu92JZtZCow3wlHvSHmVC-XJF4GD-HKQe2fvxrfvrnBAfWEvAESPHfZm_7gnI3EdznTLxXLX9RDQAvD7DP3ly8qnqnPcpt8jnQLYDk3ESS_qz-oQHG0og5ueKag="
+  },
+  {
+    "pacote_criptografado": "gAAAAABpEr0AD5UrgS_pO8IbyKMaDiN4r9Q4H1OAiAUyiPZQKwOoOae3fWBdXXa23Eku02pg_aVoblKPBzQuaYMfQkO5U8LVvHvdmE0kd2O6GfArWk4FDqMBwtZ9BOq6fBywBm6_0R4nfTRv7AIhmDrry9vOotaGjyIv50tog3ATwjXK0ECzMA8obqTZNkiTeFwOjQ9M6CualswmwtqdeDBdhwPZQ7Y5s6NpyiuaYANaP7TRAqm1NUA87bN94c-c3NhbQNxYUWKoZstIAse0LTWIz7-jrEsPqfWagw9-1rTf3F8wACMb14M7gNsJbcDMKLpK5dplJQajXnirpikWjoN1TS9QNP4h5FNonu1lITlppLDdUCNHtJyeQOGT0ej7oq9PUfodIhdKEmSPwqQQs0xJgebd7U_qatrkTgmpd62xK5c4lvQYeWRhuMmqiAGPHr7T5h706Jjg6ClVWIgweb1Snp5Z_53wzTzF0QCGyTEEKfTBK-wU77ca_P8IXOOsAMPywjXmIWbguuZdIEkR9rXKr1dlrWJuoiT-cnnMKJxbIu-qqFqRORnYAihCALgfG0lDgeHHLbfG8owKWhuSLngj86Ju9VxB47ybrhsPQQQ5EazdkdKazOo="
   }
 ]

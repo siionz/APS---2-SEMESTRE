@@ -18,5 +18,10 @@
         "username": "Cahe",
         "passwordHash": "ee9ccee79937c881c04b6f0bff5c19e3044e7b24738c5f5ddb25c126d98bc7f9",
         "tipo": "usuario"
+    },
+    "5": {
+        "username": "Teste",
+        "passwordHash": "5ac619e4c1b99b5afec2b981696c62fdd8342830463eec9178c62c7996bafc3c",
+        "tipo": "admin"
     }
 }
