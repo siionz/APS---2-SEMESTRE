@@ -26,7 +26,8 @@ ARQ_KEYS = "keys.json"        # mapping username -> encrypted(raw_key) (encrypte
 PASTA_CHAVES = "chaves"      # individual files: <username>.key (also encrypted with MASTER_FERNET)
 PASTA_HIST = "historico"     # per-owner files: <owner>.json -> list of {"pacote_criptografado": "..."}
 MASTER_KEY_FILE = os.path.join(PASTA_CHAVES, "server_master.key")
-BROKER_DEFAULT = "test.mosquitto.org"
+BROKER_DEFAULT = "broker.hivemq.com"
+
 
 # garante diretórios
 os.makedirs(PASTA_CHAVES, exist_ok=True)
@@ -515,19 +516,30 @@ def mensagens_para_descriptografar(usuario):
 # ---- recebimento MQTT (escuta e grava) ----
 def receber_mensagem(usuario, broker=BROKER_DEFAULT):
     topico = f"minharede/chat/{usuario.lower().strip()}"
-    try: f_user = obter_fernet_por_username(usuario)
-    except Exception: f_user = None
+    try:
+        f_user = obter_fernet_por_username(usuario)
+    except Exception:
+        f_user = None
 
     def on_message(client, userdata, message):
         hora = datetime.datetime.now().strftime("%H:%M:%S")
-        payload = message.payload
+        payload = message.payload  # normalmente bytes
         texto = None
+
+        # tenta descriptografar o pacote externo (com a chave do usuário)
         if f_user:
-            try: texto = f_user.decrypt(payload).decode()
-            except (InvalidToken, Exception): texto = None
+            try:
+                token = payload if isinstance(payload, (bytes, bytearray)) else str(payload).encode()
+                texto = f_user.decrypt(token).decode()
+            except (InvalidToken, Exception) as e:
+                # não descriptografou com chave do usuário
+                texto = None
+
         if texto is None:
-            try: raw_str = payload.decode()
-            except: raw_str = str(payload)
+            try:
+                raw_str = payload.decode() if isinstance(payload, (bytes, bytearray)) else str(payload)
+            except Exception:
+                raw_str = str(payload)
             console.print(f"[{hora}] [bold yellow]Mensagem recebida - NÃO PODE DESCRIPT.[/bold yellow]\n[dim]{raw_str}[/dim]")
             registro = {
                 "remetente": "desconhecido",
@@ -539,16 +551,24 @@ def receber_mensagem(usuario, broker=BROKER_DEFAULT):
                 "broker": broker,
                 "descriptografavel": False
             }
-            append_historico(usuario, registro); return
-        if ":" in texto: remetente, texto_msg = texto.split(":", 1)
-        else: remetente, texto_msg = "Desconhecido", texto
+            append_historico(usuario, registro)
+            return
+
+        # agora temos 'texto' (string) no formato "Remetente:conteudo" ou apenas conteudo
+        try:
+            remetente, texto_msg = (texto.split(":", 1) if ":" in texto else ("Desconhecido", texto))
+        except Exception:
+            remetente, texto_msg = "Desconhecido", texto
+
         remetente_exibido = "[bold red]Admin[/bold red]" if remetente.lower() == "admin" else f"[bold cyan]{remetente}[/bold cyan]"
         console.print(f"[{hora}] {remetente_exibido} → [white]{texto_msg}[/white]")
+
+        payload_str = payload.decode() if isinstance(payload, (bytes, bytearray)) else str(payload)
         registro = {
             "remetente": remetente,
             "destinatario": usuario,
-            "mensagem_criptografada": payload.decode() if isinstance(payload, bytes) else str(payload),
-            "hash_msg": hash_mensagem(payload.decode() if isinstance(payload, bytes) else str(payload), salt_digitado),
+            "mensagem_criptografada": payload_str,
+            "hash_msg": hash_mensagem(payload_str, salt_digitado),
             "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "topico": topico,
             "broker": broker,
@@ -556,23 +576,42 @@ def receber_mensagem(usuario, broker=BROKER_DEFAULT):
         }
         append_historico(usuario, registro)
 
-    cliente = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
-    cliente.on_message = on_message
-    try: cliente.connect(broker, 1883, 60); cliente.subscribe(topico); cliente.loop_start()
-    except Exception as e: console.print(f"[bold red]Erro conectar MQTT: {e}[/bold red]"); return
-    clear(); titulo(f" CHAT PRIVADO ({usuario.upper()})")
-    console.print(Panel.fit(f"[bold cyan]Escutando mensagens no tópico '{topico}'.[/bold cyan]\n[dim]Pressione Ctrl+C para sair.[/dim]"))
-    responder = input(Fore.LIGHTMAGENTA_EX + "Deseja responder às mensagens? (s/n): " + Fore.RESET).strip().lower()
-    if responder == 's':
-        thread_envio = threading.Thread(target=enviar_mensagem, kwargs={"broker": broker, "remetente": usuario})
-        thread_envio.start()
+    # cria cliente MQTT com fallback caso a versão antiga não aceite callback_api_version
     try:
-        while True: time.sleep(1)
+        cliente = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
+    except Exception:
+        cliente = mqtt.Client()
+
+    cliente.on_message = on_message
+
+    try:
+        cliente.connect(broker, 1883, 60)
+        cliente.subscribe(topico)
+        cliente.loop_start()
+    except Exception as e:
+        console.print(f"[bold red]Erro conectar MQTT: {e}[/bold red]")
+        return
+
+    clear()
+    titulo(f" CHAT PRIVADO ({usuario.upper()})")
+    console.print(Panel.fit(f"[bold cyan]Escutando mensagens no tópico '{topico}'.[/bold cyan]\n[dim]Pressione Ctrl+C para sair.[/dim]"))
+
+    if input(Fore.LIGHTMAGENTA_EX + "Deseja responder às mensagens? (s/n): " + Fore.RESET).strip().lower() == 's':
+        threading.Thread(target=enviar_mensagem, kwargs={"broker": broker, "remetente": usuario}).start()
+
+    try:
+        while True:
+            time.sleep(1)
     except KeyboardInterrupt:
         console.print("\n[bold yellow]Chat encerrado.[/bold yellow]")
     finally:
-        try: cliente.loop_stop(); cliente.disconnect()
-        except: pass
+        try:
+            cliente.loop_stop()
+            cliente.disconnect()
+        except Exception:
+            pass
+
+
 
 # ---- menus ----
 def MenuPrincipalADM():
