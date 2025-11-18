@@ -658,3 +658,6 @@ def menuPrincipal():
 # ---- main ----
 if __name__ == "__main__":
     menuPrincipal()
+
+def teste():
+    return
