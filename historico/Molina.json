@@ -8,5 +8,8 @@
     "topico": "minharede/chat/molina",
     "broker": "test.mosquitto.org",
     "usou_chave_destinatario": true
+  },
+  {
+    "pacote_criptografado": "gAAAAABpGiiyaA2KI4QuJQz0CObSe9-XoCmlE6Hwb6JKm8nMY5iQ5eMp2maFiLi5EnZGXe6eLvktyem5RF_O9byXSAam1mh_Nf2uJEfVo7xrrFAcEgkZeLV1-Cyt4jQXWRpme6a5dQkh6Jb6Wp-lKI77K9MyX7PgUv8qlLYi5fzrymsUzQNnQszuF6q3iatWZEJA2nRZn0pBkUBPNPJFBFx0pTlpXGUyXRyy9zbbMuFAm0Isx7GYWrn5qXl_I6NpTFGYDsc_IlygllJhMaWHC7P6wtyGjMkoQ99KnDubkGRpMa9tGtDp-nO7RzMCBNMq9iVHn610NnjgYsyEw9D4RMsL-r4OoGhLaqATu4riOU9bwpq47oVKIh9cWLq0HJUdXimDJAnvJPJKTudLPTzy8FjcHmc_ClrP5l0PHsyNcDeLBbOLnZZIisVihATZxllVT1OI6B85azM8wcS8kPFrFdpQQJVsglTLabRGa8SgSgxjzQ45YlFDNs-JTjNxmoWCXx8FoJj8SibeDhQX02JFMI0J_VRAtbWTe8vew6Qp5dgoUER_9JARufmfGL15g1asOuUKmxRwzs-wYId4K_tA-lxhqFBuZAIf2hKRwaIxIf_FEfUC8msd1IGeCVti5UYW0C_7Wolyh62P"
   }
 ]

@@ -9,19 +9,24 @@
         "passwordHash": "dd5002d7658de689787a8fc71ee27534ab7e21eb5744f3e05f59a2662c8743e6",
         "tipo": "usuario"
     },
-    "3": {
-        "username": "gabi",
-        "passwordHash": "06c6117c9c6aba2d4a5688a634b29dcaab102e93de86ac108435fe5e0bddf539",
-        "tipo": "usuario"
-    },
-    "4": {
-        "username": "Cahe",
-        "passwordHash": "ee9ccee79937c881c04b6f0bff5c19e3044e7b24738c5f5ddb25c126d98bc7f9",
-        "tipo": "usuario"
-    },
     "5": {
         "username": "Teste",
         "passwordHash": "5ac619e4c1b99b5afec2b981696c62fdd8342830463eec9178c62c7996bafc3c",
         "tipo": "admin"
+    },
+    "6": {
+        "username": "Jorge",
+        "passwordHash": "9f716ddc2865759ab36f564daf8b4428b993d6d420073f9a6336dd6dfe13d208",
+        "tipo": "usuario"
+    },
+    "7": {
+        "username": "Test",
+        "passwordHash": "cfdd59132db6ef575a73a1e7385679b65c956f54dc0e655fb9f5c6546011e0f2",
+        "tipo": "usuario"
+    },
+    "8": {
+        "username": "Gabi",
+        "passwordHash": "f0dc77fff376dfef479d4ce4c33939bea0b6da3cb5b99f696300608b3b69c17b",
+        "tipo": "usuario"
     }
 }
